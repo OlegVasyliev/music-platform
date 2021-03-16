@@ -21,6 +21,8 @@ const menuItems = [
     {text: 'Album list', href: '/albums'},
 ]
 
+// Test test test
+
 export default function Navbar() {
     const [open, setOpen] = React.useState(false);
     const router = useRouter()
