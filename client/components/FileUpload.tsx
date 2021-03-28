@@ -11,7 +11,6 @@ const FileUpload: React.FC<FileUploadProps> = ({setFile, accept, children}) => {
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFile(e.target.files[0])
     }
-
     return (
         <div onClick={() => ref.current.click()}>
             <input
