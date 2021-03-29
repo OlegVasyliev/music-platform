@@ -4,6 +4,7 @@ import React from 'react';
 import TrackList from '../../components/TrackList';
 import MainLayout from '../../layouts/MainLayout';
 import {ITrack} from '../../types/track';
+import {useTypedSelector} from "../../hooks/useTypedSelector";
 
 
 const Index = () => {
