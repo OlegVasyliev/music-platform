@@ -3,46 +3,23 @@ import {useRouter} from 'next/router';
 import React from 'react';
 import TrackList from '../../components/TrackList';
 import MainLayout from '../../layouts/MainLayout';
-import {ITrack} from '../../types/track';
+
 import {useTypedSelector} from "../../hooks/useTypedSelector";
+import {NextThunkDispatch, wrapper} from "../../store";
+import {fetchTracks} from "../../store/actions-creators/track";
 
 
 const Index = () => {
     const router = useRouter()
-    const tracks: ({ comments: any[]; listens: number; artist: string; name: string; _id: string; text: string; audio: string; picture: string } | { comments: any[]; listens: number; artist: string; name: string; _id: string; text: string; audio: string; picture: string } | { comments: any[]; listens: number; artist: string; name: string; _id: string; text: string; audio: string; picture: string })[] = [
-        {
-            _id: '1',
-            name: 'Track 1',
-            artist: 'Artist 1',
-            text: 'Some text',
-            listens: 5,
-            audio: 'http://localhost:5000/audio/50b1909c-4d3a-4785-9df7-0dc0b3246866.mp3',
-            picture: 'http://localhost:5000/image/66c31d73-68ac-4017-ae5e-6fb5aaba55b4.jpg',
-            comments: []
-        },
-        {
-            _id: '2',
-            name: 'Track 1',
-            artist: 'Artist 1',
-            text: 'Some text',
-            listens: 5,
-            audio: 'http://localhost:5000/audio/50b1909c-4d3a-4785-9df7-0dc0b3246866.mp3',
-            picture: 'http://localhost:5000/image/66c31d73-68ac-4017-ae5e-6fb5aaba55b4.jpg',
-            comments: []
-        },
-        {
-            _id: '3',
-            name: 'Track 1',
-            artist: 'Artist 1',
-            text: 'Some text',
-            listens: 5,
-            audio: 'http://localhost:5000/audio/50b1909c-4d3a-4785-9df7-0dc0b3246866.mp3',
-            picture: 'http://localhost:5000/image/66c31d73-68ac-4017-ae5e-6fb5aaba55b4.jpg',
-            comments: []
-        },
+    const {tracks, error} = useTypedSelector(state => state.track)
 
-    ]
-    // @ts-ignore
+    if (error) {
+        return <MainLayout>
+            <h1>{error}</h1>
+        </MainLayout>
+    }
+
+
     return (
         <MainLayout>
             <Grid container justifyContent='center'>
@@ -62,3 +39,8 @@ const Index = () => {
     );
 };
 export default Index;
+
+export const getServerSideProps = wrapper.getServerSideProps(async ({store}) => {
+    const dispatch = store.dispatch as NextThunkDispatch
+    await dispatch(await fetchTracks())
+})
